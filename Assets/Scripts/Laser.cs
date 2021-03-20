@@ -20,6 +20,15 @@ public class Laser : MonoBehaviour
         if (transform.position.y > 10)
         {
             Destroy(this.gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
+
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.tag == "Enemy")
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
 }

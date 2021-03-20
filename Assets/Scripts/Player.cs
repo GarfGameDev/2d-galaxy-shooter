@@ -11,7 +11,27 @@ public class Player : MonoBehaviour
     private float _nextFire = -1f;
 
     [SerializeField]
+    private int _playerLives = 3;
+
+    [SerializeField]
     private GameObject _laser;
+    [SerializeField]
+    private GameObject _tripleShotPrefab;
+    
+    private SpawnManager _spawnManager;
+
+    [SerializeField]
+    private bool _collectedTripleShot = false;
+
+    void Start()
+    {
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();   
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is null");
+        } 
+    }
 
     void Update()
     {
@@ -19,6 +39,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
         {
+            _nextFire = Time.time + _fireRate;
+
             FireLaser();
         }
         
@@ -26,12 +48,23 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
+        _nextFire = Time.time + _fireRate;
+        if (_collectedTripleShot == true)
+        {
+            Instantiate(_tripleShotPrefab, transform.position + new Vector3(-0.86f, 0.7f, 0), Quaternion.identity);
+        }
+        else if (_collectedTripleShot == false)
+        {
+            Instantiate(_laser, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+        }
 
-            _nextFire = Time.time + _fireRate;
-            Instantiate(_laser, transform.position + new Vector3(0.5f, 1f, 0), Quaternion.identity);
+            
+            
             
         
     }
+
+
 
     private void Movement()
     {
@@ -52,6 +85,31 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(10.7f, transform.position.y, 0);
         }
     }
+
+    public void Damage()
+    {
+        _playerLives -= 1;
+
+        if (_playerLives < 1)
+        {
+            _spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void EngageTripleShot()
+    {
+        _collectedTripleShot = true;
+        StartCoroutine(TripleShotTimer());
+    }
+
+    IEnumerator TripleShotTimer()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _collectedTripleShot = false;
+    }
+
+
 }
 
 
