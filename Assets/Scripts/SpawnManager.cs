@@ -8,11 +8,19 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemy;
     [SerializeField]
     private GameObject _enemyContainer;
+    // [SerializeField]
+    // private GameObject _tripleShot;
+    // [SerializeField]
+    // private GameObject _speedPowerup;
+    [SerializeField]
+    private GameObject[] _powerups;
+
     private bool _playerAlive = true;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(SpawnEnemy());
+        StartCoroutine(SpawnPowerup());
     }
 
     // Update is called once per frame
@@ -29,6 +37,16 @@ public class SpawnManager : MonoBehaviour
             GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
             enemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(5.0f);
+        }
+    }
+
+    IEnumerator SpawnPowerup()
+    {
+        while (_playerAlive == true) 
+        {
+            int randomPowerUp = Random.Range(0, 3);
+            Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
+            yield return new WaitForSeconds(3.0f);
         }
     }
 

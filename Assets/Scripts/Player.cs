@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _playerSpeed = 8.0f;
+    private int _doubleSpeed = 2;
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
@@ -17,11 +18,17 @@ public class Player : MonoBehaviour
     private GameObject _laser;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    [SerializeField]
+    private GameObject _shieldPrefab;
+    private GameObject _shield;
     
     private SpawnManager _spawnManager;
 
-    [SerializeField]
     private bool _collectedTripleShot = false;
+    private bool _collectedSpeed = false;
+    public bool collectedShield = false;
+
+    
 
     void Start()
     {
@@ -57,11 +64,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laser, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
-
-            
-            
-            
-        
+       
     }
 
 
@@ -72,7 +75,17 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(direction * _playerSpeed * Time.deltaTime);
+
+        if (_collectedSpeed == false)
+        {
+            transform.Translate(direction * _playerSpeed * Time.deltaTime);
+        }
+
+        else if (_collectedSpeed == true)
+        {
+            transform.Translate(direction * (_playerSpeed * _doubleSpeed) * Time.deltaTime);
+        }
+        
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
 
@@ -88,7 +101,17 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _playerLives -= 1;
+
+        if (collectedShield == true)
+        {
+            Destroy(_shield.gameObject);
+            collectedShield = false;
+        }
+        else 
+        {
+            _playerLives -= 1;
+        }
+        
 
         if (_playerLives < 1)
         {
@@ -108,6 +131,27 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _collectedTripleShot = false;
     }
+
+    public void EngageSpeedPowerup()
+    {
+       _collectedSpeed = true;
+        StartCoroutine(SpeedPowerupTimer());
+
+    }
+
+    IEnumerator SpeedPowerupTimer()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _collectedSpeed = false;
+    }
+
+    public void EngageShieldPowerup()
+    {
+        _shield = Instantiate(_shieldPrefab, transform.position, Quaternion.identity);
+        _shield.transform.parent = this.transform;
+        collectedShield = true;       
+    }
+
 
 
 }
