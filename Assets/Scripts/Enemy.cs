@@ -93,16 +93,25 @@ public class Enemy : MonoBehaviour
 
     IEnumerator SpawnLaser()
     {
-        while (_enemyCanFire == true)
+        
+        while (true)
         {
             yield return new WaitForSeconds(Random.Range(1.0f, 4.0f));
-            GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-            for (int i = 0; i < lasers.Length; i++)
+            if (_enemyCanFire == true)
             {
-                lasers[i].EnemyLaser();
+                GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
+                Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+                for (int i = 0; i < lasers.Length; i++)
+                {
+                    lasers[i].EnemyLaser();
+                }
             }
+            else
+            {
+                Debug.Log("Can't fire as enemy is destroyed");
+            }
+
         }
     }
 

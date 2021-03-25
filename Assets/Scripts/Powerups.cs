@@ -51,7 +51,10 @@ public class Powerups : MonoBehaviour
                         _audioManager.PlayAudio();
                         _player.EngageShieldPowerup();
                     }
-                    
+                    break;
+                case 3:
+                    _audioManager.PlayAudio();
+                    _player.RefillAmmo();
                     break;
                 default:
                     Debug.Log("Something has gone wrong with defining the powerupID");

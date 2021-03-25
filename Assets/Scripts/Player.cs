@@ -253,6 +253,12 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
+    public void RefillAmmo()
+    {
+        _ammoCount = 15;
+        _uiManager.UpdateAmmoText(_ammoCount);
+    }
+
 
 }
 
