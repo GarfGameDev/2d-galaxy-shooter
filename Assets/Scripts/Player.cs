@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
 
+    [SerializeField]
     private int _playerLives = 3;
     private int _score;
     private int _shieldHealth;
@@ -257,6 +258,15 @@ public class Player : MonoBehaviour
     {
         _ammoCount = 15;
         _uiManager.UpdateAmmoText(_ammoCount);
+    }
+
+    public void HealPlayer()
+    {
+        if (_playerLives < 3)
+        {
+            _playerLives += 1;
+            _uiManager.UpdateLives(_playerLives);
+        }
     }
 
 
