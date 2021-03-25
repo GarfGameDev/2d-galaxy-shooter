@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     private int _playerLives = 3;
     private int _score;
+    private int _shieldHealth;
 
     [SerializeField]
     private GameObject _laser;
@@ -38,6 +39,8 @@ public class Player : MonoBehaviour
     public bool collectedShield = false;
 
     private UIManager _uiManager;
+
+    private SpriteRenderer _shieldVisualHealth;
 
     void Start()
     {
@@ -140,8 +143,28 @@ public class Player : MonoBehaviour
 
         if (collectedShield == true)
         {
-            Destroy(_shield.gameObject);
-            collectedShield = false;
+            _shieldHealth -= 1;
+
+            switch(_shieldHealth)
+            {
+                case 0:
+                    Destroy(_shield.gameObject);
+                    collectedShield = false;
+                    break;
+                case 1:
+                    _shieldVisualHealth.color = Color.red;
+                    break;
+                case 2:
+                    _shieldVisualHealth.color = Color.yellow;
+                    break;
+                case 3:
+                    _shieldVisualHealth.color = Color.magenta;
+                    break;
+                default:
+                    Debug.Log("Something has gone wrong with the Shield Health");
+                    break;
+
+            }
         }
         else 
         {
@@ -165,6 +188,8 @@ public class Player : MonoBehaviour
                 Debug.Log("Shield took the hit");
                 break;
         }
+
+
 
         
         
@@ -206,7 +231,9 @@ public class Player : MonoBehaviour
     {
         _shield = Instantiate(_shieldPrefab, transform.position, Quaternion.identity);
         _shield.transform.parent = this.transform;
-        collectedShield = true;       
+        collectedShield = true; 
+        _shieldVisualHealth = _shield.GetComponent<SpriteRenderer>(); 
+        _shieldHealth = 4;     
     }
     
     public void AddScore(int points)

@@ -20,12 +20,16 @@ public class Enemy : MonoBehaviour
     AudioSource _audio;
     private Laser _laser;
 
+    private bool _enemyCanFire = false;
+
     void Start()
     {
         _enemyAnim = GetComponent<Animator>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _collider = GetComponent<Collider2D>();
         _audio = GetComponent<AudioSource>();
+
+        _enemyCanFire = true;
 
         StartCoroutine(SpawnLaser());
 
@@ -82,15 +86,16 @@ public class Enemy : MonoBehaviour
 
     IEnumerator DestroyEnemyRoutine(GameObject enemy)
     {
+        _enemyCanFire = false;
         yield return new WaitForSeconds(2.8f);
         Destroy(enemy);
     }
 
     IEnumerator SpawnLaser()
     {
-        while (true)
+        while (_enemyCanFire == true)
         {
-            yield return new WaitForSeconds(Random.Range(1.0f, 3.0f));
+            yield return new WaitForSeconds(Random.Range(1.0f, 4.0f));
             GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
