@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     private float _playerSpeed = 8.0f;
     private int _doubleSpeed = 2;
-    [SerializeField]
+    private float _thrusterSpeed = 12.0f;
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
 
-    [SerializeField]
     private int _playerLives = 3;
     private int _score;
 
@@ -40,8 +38,6 @@ public class Player : MonoBehaviour
     public bool collectedShield = false;
 
     private UIManager _uiManager;
-
-    
 
     void Start()
     {
@@ -110,7 +106,7 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        if (_collectedSpeed == false)
+        if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift) == false)
         {
             transform.Translate(direction * _playerSpeed * Time.deltaTime);
         }
@@ -119,6 +115,12 @@ public class Player : MonoBehaviour
         {
             transform.Translate(direction * (_playerSpeed * _doubleSpeed) * Time.deltaTime);
         }
+
+        else if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
+        }
+
         
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
@@ -160,7 +162,7 @@ public class Player : MonoBehaviour
                 _rightEngine.SetActive(true);
                 break;
             default:
-                Debug.Log("Unable to get a read on player lives");
+                Debug.Log("Shield took the hit");
                 break;
         }
 
