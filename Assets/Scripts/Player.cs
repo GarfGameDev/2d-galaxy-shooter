@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private int _playerLives = 3;
     private int _score;
     private int _shieldHealth;
+    private int _ammoCount = 15;
 
     [SerializeField]
     private GameObject _laser;
@@ -70,7 +71,15 @@ public class Player : MonoBehaviour
         {
             _nextFire = Time.time + _fireRate;
 
-            FireLaser();
+            if (_ammoCount > 0)
+            {
+                FireLaser();
+            }
+            else
+            {
+                Debug.Log("You are out of ammo!");
+            }
+
         }
         
     }
@@ -85,6 +94,8 @@ public class Player : MonoBehaviour
         else if (_collectedTripleShot == false)
         {
             Instantiate(_laser, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            _ammoCount -= 1;
+            _uiManager.UpdateAmmoText(_ammoCount);
         }
 
         _audio.Play();

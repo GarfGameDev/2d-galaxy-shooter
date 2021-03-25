@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartText;
+    [SerializeField]
+    private Text _ammoText;
 
     private Player _player;
     private GameManager _gameManager;
@@ -43,6 +45,11 @@ public class UIManager : MonoBehaviour
             _restartText.gameObject.SetActive(true);
             _gameManager.GameOver();
         }
+    }
+
+    public void UpdateAmmoText(int ammoCount)
+    {
+        _ammoText.text = "Ammo: " + ammoCount;
     }
 
     IEnumerator GameOverFlicker()
