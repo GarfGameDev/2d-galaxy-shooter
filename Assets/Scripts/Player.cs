@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _playerLives = 3;
+    private int _score;
 
     [SerializeField]
     private GameObject _laser;
@@ -21,6 +23,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldPrefab;
     private GameObject _shield;
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
+
+    [SerializeField]
+    private AudioClip _laserAudio;
+
+    private AudioSource _audio;
     
     private SpawnManager _spawnManager;
 
@@ -28,16 +39,28 @@ public class Player : MonoBehaviour
     private bool _collectedSpeed = false;
     public bool collectedShield = false;
 
+    private UIManager _uiManager;
+
     
 
     void Start()
     {
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();   
 
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is null");
         } 
+
+        if (_uiManager == null)
+        {
+            Debug.LogError("The UI Manager is null");
+        }
+
+        _audio = GetComponent<AudioSource>();
+
+        _audio.clip = _laserAudio;
     }
 
     void Update()
@@ -64,7 +87,18 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laser, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
+
+        _audio.Play();
        
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "EnemyLaser")
+        {
+            Destroy(other.gameObject);
+            Damage();
+        }
     }
 
 
@@ -110,14 +144,35 @@ public class Player : MonoBehaviour
         else 
         {
             _playerLives -= 1;
+            _uiManager.UpdateLives(_playerLives);
         }
+
+        switch(_playerLives)
+        {
+            case 0:
+                _spawnManager.OnPlayerDeath();
+                Destroy(this.gameObject);
+                break;
+            case 1:
+                _leftEngine.SetActive(true);
+                break;
+            case 2:
+                _rightEngine.SetActive(true);
+                break;
+            default:
+                Debug.Log("Unable to get a read on player lives");
+                break;
+        }
+
+        
         
 
-        if (_playerLives < 1)
-        {
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
-        }
+        // if (_playerLives < 1)
+        // {
+            
+        //     _spawnManager.OnPlayerDeath();
+        //     Destroy(this.gameObject);
+        // }
     }
 
     public void EngageTripleShot()
@@ -151,7 +206,12 @@ public class Player : MonoBehaviour
         _shield.transform.parent = this.transform;
         collectedShield = true;       
     }
-
+    
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
+    }
 
 
 }

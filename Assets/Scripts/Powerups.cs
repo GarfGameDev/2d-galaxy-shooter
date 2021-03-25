@@ -9,11 +9,13 @@ public class Powerups : MonoBehaviour
 
     [SerializeField]
     private int _powerupID;
+
+    private AudioManager _audioManager;
     //private Player _player;
     // Start is called before the first frame update
     void Start()
     {
-        //_player = GameObject.Find("Player").GetComponent<Player>();
+        _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -36,14 +38,17 @@ public class Powerups : MonoBehaviour
             switch(_powerupID)
             {
                 case 0:
+                    _audioManager.PlayAudio();
                     _player.EngageTripleShot();
                     break;
                 case 1:
+                    _audioManager.PlayAudio();
                     _player.EngageSpeedPowerup();
                     break;
                 case 2:
                     if (_player.collectedShield == false)
                     {
+                        _audioManager.PlayAudio();
                         _player.EngageShieldPowerup();
                     }
                     

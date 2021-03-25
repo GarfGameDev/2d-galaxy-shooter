@@ -5,7 +5,35 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _enemySpeed = 5.0f;
+    private float _enemySpeed = 3.0f;
+    private Player _player;
+
+    [SerializeField]
+    private GameObject _enemyLaser;
+
+    private Animator _enemyAnim;
+    private Collider2D _collider;
+
+    [SerializeField]
+    private AudioClip _enemyExplodeAudio;
+
+    AudioSource _audio;
+    private Laser _laser;
+
+    void Start()
+    {
+        _enemyAnim = GetComponent<Animator>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _collider = GetComponent<Collider2D>();
+        _audio = GetComponent<AudioSource>();
+
+        StartCoroutine(SpawnLaser());
+
+        if (_audio != null)
+        {
+            _audio.clip = _enemyExplodeAudio;
+        }
+    }
     // Start is called before the first frame update
     void Update()
     {
@@ -22,18 +50,55 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Player player = other.transform.GetComponent<Player>();
-            if (player != null)
+            //Player player = other.transform.GetComponent<Player>();
+            if (_player != null)
             {
-               player.Damage();  
+               _player.Damage();  
             }
-            Destroy(this.gameObject);
+            _enemyAnim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            _collider.enabled = false;
+            _audio.Play();
+            StartCoroutine(DestroyEnemyRoutine(this.gameObject));
         }
 
         else if (other.tag == "Laser")
         {
+            //Player player = GameObject.Find("Player").GetComponent<Player>();
+            if (_player != null)
+            {
+                _player.AddScore(Random.Range(5, 20));
+            }
+            _enemyAnim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            _collider.enabled = false;
+            _audio.Play();
+            Destroy(GetComponent<Collider2D>());
+            StartCoroutine(DestroyEnemyRoutine(this.gameObject));
+            
         }
     }
+
+    IEnumerator DestroyEnemyRoutine(GameObject enemy)
+    {
+        yield return new WaitForSeconds(2.8f);
+        Destroy(enemy);
+    }
+
+    IEnumerator SpawnLaser()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(1.0f, 3.0f));
+            GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].EnemyLaser();
+            }
+        }
+    }
+
 }

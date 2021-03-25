@@ -5,15 +5,24 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     private float _laserSpeed = 8.0f;
+    private bool _isEnemyLaser = false;
 
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
+        if (_isEnemyLaser == false)
+        {
+            MoveUp();
+        }
+        else
+        {
+            MoveDown();
+        }
+        
 
     }
 
-    void CalculateMovement()
+    void MoveUp()
     {
         transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime);
 
@@ -26,6 +35,21 @@ public class Laser : MonoBehaviour
             Destroy(this.gameObject);
             
         }
+    }
+
+    void MoveDown()
+    {
+        transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
+
+        if (transform.position.y < -6.0f)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void EnemyLaser()
+    {
+        _isEnemyLaser = true;
     }
 
     // private void OnTriggerEnter(Collider other)

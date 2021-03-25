@@ -17,7 +17,9 @@ public class SpawnManager : MonoBehaviour
 
     private bool _playerAlive = true;
     // Start is called before the first frame update
-    void Start()
+
+
+    public void StartGame()
     {
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnPowerup());
@@ -28,6 +30,7 @@ public class SpawnManager : MonoBehaviour
     {
         
     }
+
     IEnumerator SpawnEnemy()
     {
         while(_playerAlive == true)
