@@ -28,12 +28,19 @@ public class Laser : MonoBehaviour
 
         if (transform.position.y > 10)
         {
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
             Destroy(this.gameObject);
-            
+        }
+        else if (transform.position.y < -10)
+        {
+            Destroy(this.gameObject);
+        }
+        else if (transform.position.x > 10)
+        {
+            Destroy(this.gameObject);
+        }
+        else if (transform.position.x < -10)
+        {
+            Destroy(this.gameObject);
         }
     }
 
@@ -46,6 +53,7 @@ public class Laser : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
 
     public void EnemyLaser()
     {

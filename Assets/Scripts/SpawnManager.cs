@@ -8,10 +8,8 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemy;
     [SerializeField]
     private GameObject _enemyContainer;
-    // [SerializeField]
-    // private GameObject _tripleShot;
-    // [SerializeField]
-    // private GameObject _speedPowerup;
+
+
     [SerializeField]
     private GameObject[] _powerups;
 
@@ -47,9 +45,21 @@ public class SpawnManager : MonoBehaviour
     {
         while (_playerAlive == true) 
         {
-            int randomPowerUp = Random.Range(0, 5);
-            Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
-            yield return new WaitForSeconds(3.0f);
+            float randomValue = Random.value;
+            if (randomValue < 0.2f)
+            {
+                Debug.Log("Chance to spawn multishot");
+                int multishotChance = Random.Range(0, 6);
+                Instantiate(_powerups[multishotChance], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity); 
+                yield return new WaitForSeconds(3.0f);
+            }
+            else 
+            {
+                int randomPowerUp = Random.Range(0, 5);
+                Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
+                yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
+            }
+
         }
     }
 

@@ -28,6 +28,10 @@ public class Player : MonoBehaviour
     private GameObject _rightEngine;
     [SerializeField]
     private GameObject _leftEngine;
+    [SerializeField]
+    private GameObject[] _multiShot;
+    [SerializeField]
+    private GameObject _laserContainer;
 
     [SerializeField]
     private AudioClip _laserAudio;
@@ -39,6 +43,7 @@ public class Player : MonoBehaviour
     private bool _collectedTripleShot = false;
     private bool _collectedSpeed = false;
     public bool collectedShield = false;
+    public bool _isMultiShotActive = false;
 
     private UIManager _uiManager;
 
@@ -88,15 +93,25 @@ public class Player : MonoBehaviour
     private void FireLaser()
     {
         _nextFire = Time.time + _fireRate;
-        if (_collectedTripleShot == true)
+        if (_collectedTripleShot == true && _isMultiShotActive == false)
         {
             Instantiate(_tripleShotPrefab, transform.position + new Vector3(-0.86f, 0.7f, 0), Quaternion.identity);
         }
-        else if (_collectedTripleShot == false)
+        else if (_collectedTripleShot == false && _isMultiShotActive == false)
         {
             Instantiate(_laser, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
             _ammoCount -= 1;
             _uiManager.UpdateAmmoText(_ammoCount);
+        }
+
+        if (_collectedTripleShot == false && _isMultiShotActive == true)
+        {
+            for (int i = 0; i < _multiShot.Length; i++)
+            {
+                GameObject laser = Instantiate(_laser, transform.position, Quaternion.Euler(0, 0, (i * 20)));
+                laser.transform.parent = _laserContainer.transform;
+            }
+            
         }
 
         _audio.Play();
@@ -247,6 +262,18 @@ public class Player : MonoBehaviour
         _shieldVisualHealth = _shield.GetComponent<SpriteRenderer>(); 
         _shieldHealth = 4;     
     }
+
+    public void EngageMultiShot()
+    {
+        _isMultiShotActive = true;
+        StartCoroutine(MultiShotRoutine());
+    }
+
+    IEnumerator MultiShotRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isMultiShotActive = false;
+    }
     
     public void AddScore(int points)
     {
@@ -262,9 +289,17 @@ public class Player : MonoBehaviour
 
     public void HealPlayer()
     {
-        if (_playerLives < 3)
+
+        if (_playerLives == 1)
         {
             _playerLives += 1;
+            _leftEngine.SetActive(false);
+            _uiManager.UpdateLives(_playerLives);
+        }
+        else if (_playerLives == 2)
+        {
+            _playerLives += 1;
+            _rightEngine.SetActive(false);
             _uiManager.UpdateLives(_playerLives);
         }
     }
