@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     private Text _restartText;
     [SerializeField]
     private Text _ammoText;
+    [SerializeField]
+    private Text _thrusterText;
 
     private Player _player;
     private GameManager _gameManager;
@@ -50,6 +52,26 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmoText(int ammoCount)
     {
         _ammoText.text = "Ammo: " + ammoCount;
+    }
+
+    public void UpdateThrusterText(int thrusterTotal)
+    {
+        if (thrusterTotal <= 20)
+        {
+            _thrusterText.color = Color.green;
+            _thrusterText.text = " " + thrusterTotal;
+        } 
+        else if (thrusterTotal > 20 && thrusterTotal < 40)
+        {
+            _thrusterText.color = Color.yellow;
+            _thrusterText.text = " " + thrusterTotal;
+        }
+        else if (thrusterTotal >= 40)
+        {
+            _thrusterText.color = Color.red;
+            _thrusterText.text = " " + thrusterTotal;
+        }
+
     }
 
     IEnumerator GameOverFlicker()

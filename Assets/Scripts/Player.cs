@@ -10,12 +10,16 @@ public class Player : MonoBehaviour
     private float _thrusterSpeed = 12.0f;
     private float _fireRate = 0.5f;
     private float _nextFire = -1f;
+    private float _thrusterAccelerate = 0.1f;
+    private float _thrusterDecelerate = 0.5f;
+    private float _nextThrust = -1f;
 
     [SerializeField]
     private int _playerLives = 3;
     private int _score;
     private int _shieldHealth;
     private int _ammoCount = 15;
+    private int _thrusterTotal = 0;
 
     [SerializeField]
     private GameObject _laser;
@@ -139,6 +143,13 @@ public class Player : MonoBehaviour
         if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift) == false)
         {
             transform.Translate(direction * _playerSpeed * Time.deltaTime);
+
+            if (_thrusterTotal > 0 && Time.time > _nextThrust)
+            {
+                _nextThrust = Time.time + _thrusterDecelerate;
+                _thrusterTotal -= 1;
+                _uiManager.UpdateThrusterText(_thrusterTotal);
+            }
         }
 
         else if (_collectedSpeed == true)
@@ -148,7 +159,25 @@ public class Player : MonoBehaviour
 
         else if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift))
         {
-            transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
+            
+            if (_thrusterTotal < 50)
+            {
+                transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
+                if(Time.time > _nextThrust)
+                {
+                    _nextThrust = Time.time + _thrusterAccelerate;
+                    _thrusterTotal += 1;
+                    _uiManager.UpdateThrusterText(_thrusterTotal);
+                }
+                
+
+            }
+
+            else
+            {
+                transform.Translate(direction * _playerSpeed * Time.deltaTime);
+            }
+            
         }
 
         
@@ -303,6 +332,7 @@ public class Player : MonoBehaviour
             _uiManager.UpdateLives(_playerLives);
         }
     }
+
 
 
 }
