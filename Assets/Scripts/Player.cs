@@ -53,8 +53,11 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer _shieldVisualHealth;
 
+    private MainCamera _camera;
+
     void Start()
     {
+        _camera = GameObject.Find("Main Camera").GetComponent<MainCamera>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();   
 
@@ -196,6 +199,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        _camera.ShakeCamera();
 
         if (collectedShield == true)
         {
