@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private int _doubleSpeed = 2;
     private float _thrusterSpeed = 12.0f;
     private float _fireRate = 0.5f;
-    private float _nextFire = -1f;
+    private float _nextFire;
     private float _thrusterAccelerate = 0.1f;
     private float _thrusterDecelerate = 0.5f;
     private float _nextThrust = -1f;
@@ -33,9 +33,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _leftEngine;
     [SerializeField]
-    private GameObject[] _multiShot;
-    [SerializeField]
     private GameObject _laserContainer;
+    [SerializeField]
+    private GameObject _thruster;
 
     [SerializeField]
     private AudioClip _laserAudio;
@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
 
         if (_collectedTripleShot == false && _isMultiShotActive == true)
         {
-            for (int i = 0; i < _multiShot.Length; i++)
+            for (int i = 0; i < 18; i++)
             {
                 GameObject laser = Instantiate(_laser, transform.position, Quaternion.Euler(0, 0, (i * 20)));
                 laser.transform.parent = _laserContainer.transform;
@@ -145,6 +145,7 @@ public class Player : MonoBehaviour
 
         if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift) == false)
         {
+            _thruster.SetActive(false);
             transform.Translate(direction * _playerSpeed * Time.deltaTime);
 
             if (_thrusterTotal > 0 && Time.time > _nextThrust)
@@ -165,6 +166,7 @@ public class Player : MonoBehaviour
             
             if (_thrusterTotal < 50)
             {
+                _thruster.SetActive(true);
                 transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
                 if(Time.time > _nextThrust)
                 {
@@ -178,6 +180,7 @@ public class Player : MonoBehaviour
 
             else
             {
+                _thruster.SetActive(false);
                 transform.Translate(direction * _playerSpeed * Time.deltaTime);
             }
             

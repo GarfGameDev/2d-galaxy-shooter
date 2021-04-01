@@ -271,7 +271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &441442444
 Transform:
   m_ObjectHideFlags: 0
@@ -670,26 +670,8 @@ MonoBehaviour:
   _shieldPrefab: {fileID: 3825863299257792593, guid: 75934e98542cb854ba6450da73a02aaf, type: 3}
   _rightEngine: {fileID: 487124959}
   _leftEngine: {fileID: 1124481691}
-  _multiShot:
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
-  - {fileID: 1197132410585650514, guid: b49080bd05603544b824cd3534ef8bec, type: 3}
   _laserContainer: {fileID: 1119560650}
+  _thruster: {fileID: 441442443}
   _laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   collectedShield: 0
   _isMultiShotActive: 0
@@ -1374,6 +1356,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1524,6 +1507,18 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e23e9c87d35b524fbad9b2291f7f78f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1015292705
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _enemySpeed = 3.0f;
+    private float _verticalSpeed = 1.0f;
+    private float _horizontalSpeed = 4.0f;
+
     private Player _player;
 
     [SerializeField]
@@ -21,6 +23,7 @@ public class Enemy : MonoBehaviour
     private Laser _laser;
 
     private bool _enemyCanFire = false;
+    private bool _movingRight = true;
 
     void Start()
     {
@@ -41,12 +44,50 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Update()
     {
-        transform.Translate(new Vector3(0, -1, 0) * _enemySpeed * Time.deltaTime );
+        Movement();
+    }
+
+    private void Movement()
+    {
+        if (_movingRight == true)
+        {
+            transform.Translate(new Vector3(1, 0, 0) * _horizontalSpeed * Time.deltaTime );
+            transform.Translate(new Vector3(0, -1, 0) * _verticalSpeed * Time.deltaTime );
+
+            if (transform.position.x >= 9.7f)
+            {
+                _movingRight = false;
+            }
+            
+        }
+
+        if (_movingRight == false) 
+        {
+            transform.Translate(new Vector3(-1, 0, 0) * _horizontalSpeed * Time.deltaTime);
+            transform.Translate(new Vector3(0, -1, 0) * _verticalSpeed * Time.deltaTime);
+
+            if (transform.position.x <= -9.7f)
+            {
+                _movingRight = true;
+            }
+        }
+        
 
         if (transform.position.y < -5.3f)
         {
+            if (Random.value > 0.5f)
+            {
+                _movingRight = false;
+            }
+
+            else 
+            {
+                _movingRight = true;
+            }
             transform.position = new Vector3(Random.Range(-9.5f, 9.5f), 6.2f, 0);
         }
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -10.8f, 10.8f), transform.position.y, 0);
     }
 
 
@@ -60,7 +101,8 @@ public class Enemy : MonoBehaviour
                _player.Damage();  
             }
             _enemyAnim.SetTrigger("OnEnemyDeath");
-            _enemySpeed = 0;
+            _horizontalSpeed = 0;
+            _verticalSpeed = 0;
             _collider.enabled = false;
             _audio.Play();
             StartCoroutine(DestroyEnemyRoutine(this.gameObject));
@@ -74,7 +116,8 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(Random.Range(5, 20));
             }
             _enemyAnim.SetTrigger("OnEnemyDeath");
-            _enemySpeed = 0;
+            _horizontalSpeed = 0;
+            _verticalSpeed = 0;
             Destroy(other.gameObject);
             _collider.enabled = false;
             _audio.Play();
