@@ -1722,6 +1722,7 @@ MonoBehaviour:
   _restartText: {fileID: 1982819698}
   _ammoText: {fileID: 1417256685}
   _thrusterText: {fileID: 1880253269}
+  _maxAmmo: 15
 --- !u!4 &1338761261
 Transform:
   m_ObjectHideFlags: 0
@@ -1806,7 +1807,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Ammo: 15'
+  m_Text: 'Ammo: 15/15'
 --- !u!222 &1417256686
 CanvasRenderer:
   m_ObjectHideFlags: 0

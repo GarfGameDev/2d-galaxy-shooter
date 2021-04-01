@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     private Text _ammoText;
     [SerializeField]
     private Text _thrusterText;
+    [SerializeField]
+    private int _maxAmmo = 15;
 
     private Player _player;
     private GameManager _gameManager;
@@ -51,7 +53,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmoText(int ammoCount)
     {
-        _ammoText.text = "Ammo: " + ammoCount;
+        _ammoText.text = "Ammo: " + ammoCount + "/" + _maxAmmo;
     }
 
     public void UpdateThrusterText(int thrusterTotal)
