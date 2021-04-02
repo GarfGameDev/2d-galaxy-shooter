@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private AudioClip _enemyExplodeAudio;
 
+    private SpawnManager _spawnManager;
+
     AudioSource _audio;
     private Laser _laser;
 
@@ -31,6 +33,7 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         _collider = GetComponent<Collider2D>();
         _audio = GetComponent<AudioSource>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
         _enemyCanFire = true;
 
@@ -101,6 +104,7 @@ public class Enemy : MonoBehaviour
                _player.Damage();  
             }
             _enemyAnim.SetTrigger("OnEnemyDeath");
+            _spawnManager.EnemyDestroyed();
             _horizontalSpeed = 0;
             _verticalSpeed = 0;
             _collider.enabled = false;
@@ -116,6 +120,7 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(Random.Range(5, 20));
             }
             _enemyAnim.SetTrigger("OnEnemyDeath");
+            _spawnManager.EnemyDestroyed();
             _horizontalSpeed = 0;
             _verticalSpeed = 0;
             Destroy(other.gameObject);

@@ -23,6 +23,17 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private int _maxAmmo = 15;
 
+    [SerializeField]
+    private Text _waveOneText;
+    [SerializeField]
+    private Text _waveTwoText;
+    [SerializeField]
+    private Text _waveThreeText;
+
+    [SerializeField]
+    private Text _enemiesRemaining;
+    
+
     private Player _player;
     private GameManager _gameManager;
     // Start is called before the first frame update
@@ -74,6 +85,41 @@ public class UIManager : MonoBehaviour
             _thrusterText.text = " " + thrusterTotal;
         }
 
+    }
+
+    public void UpdateWave(int currentwave)
+    {
+        StartCoroutine(WaveRoutine(currentwave));
+    }
+
+    public void UpdateEnemiesLeft(int enemies)
+    {
+        _enemiesRemaining.text = "Enemies Left: " + enemies;
+    }
+
+    IEnumerator WaveRoutine(int wave)
+    {
+        switch(wave)
+        {
+            case 1:
+                _waveOneText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(2.0f);
+                _waveOneText.gameObject.SetActive(false);
+                break;
+            case 2:
+                _waveTwoText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(2.0f);
+                _waveTwoText.gameObject.SetActive(false);
+                break;
+            case 3:
+                _waveThreeText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(2.0f);
+                _waveThreeText.gameObject.SetActive(false);
+                break;
+            default:
+                Debug.Log("Something has gone horribly wrong");
+                break;
+        }
     }
 
     IEnumerator GameOverFlicker()

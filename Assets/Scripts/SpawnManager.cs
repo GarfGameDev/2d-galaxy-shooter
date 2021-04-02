@@ -9,6 +9,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyContainer;
 
+    private int _wave = 1;
+    [SerializeField]
+    private int _enemyCount;
+    [SerializeField]
+    private int _enemiesToDestroy;
+
+    private UIManager _uiManager;
+
 
     [SerializeField]
     private GameObject[] _powerups;
@@ -19,8 +27,12 @@ public class SpawnManager : MonoBehaviour
 
     public void StartGame()
     {
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnPowerup());
+        _uiManager.UpdateWave(_wave);
+        _enemiesToDestroy = 3;
+        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
     }
 
     // Update is called once per frame
@@ -33,11 +45,74 @@ public class SpawnManager : MonoBehaviour
     {
         while(_playerAlive == true)
         {
-            Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
-            // Used to store the object we Instantiate into a GameObject type variable called enemy
-            GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
-            enemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5.0f);
+
+            switch (_wave)
+            {
+                case 1:
+                   if (_enemyCount < 3)
+                   {
+                        Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+                        GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
+                        enemy.transform.parent = _enemyContainer.transform;
+                        _enemyCount += 1;
+                        yield return new WaitForSeconds(5.0f);
+                   }
+                   else 
+                   {
+                       yield return new WaitUntil(() => _enemiesToDestroy == 0);
+                       _enemyCount = 0;
+                       _enemiesToDestroy = 5;
+                       _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
+                       _wave += 1;
+                       _uiManager.UpdateWave(_wave);
+                   }
+                   break;
+                case 2:
+                    if (_enemyCount < 5)
+                   {
+                        Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+                        GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
+                        enemy.transform.parent = _enemyContainer.transform;
+                        _enemyCount += 1;
+                        yield return new WaitForSeconds(5.0f);
+                   }
+                    else 
+                    {
+                        yield return new WaitUntil(() => _enemiesToDestroy == 0);
+                        _enemyCount = 0;
+                        _enemiesToDestroy = 8;
+                        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
+                        _wave += 1;
+                        _uiManager.UpdateWave(_wave);
+                    }
+                    break;
+                case 3:
+                    if (_enemyCount < 8)
+                   {
+                        Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+                        GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
+                        enemy.transform.parent = _enemyContainer.transform;
+                        _enemyCount += 1;
+                        yield return new WaitForSeconds(5.0f);
+                   }
+                    else 
+                    {
+                        yield return new WaitUntil(() => _enemiesToDestroy == 0);
+                        _playerAlive = false;
+                    }
+                    break;
+                default:
+                    Debug.Log("Something has gone wrong with spawning");
+                    break;
+            }
+
+
+
+            // Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+            // // Used to store the object we Instantiate into a GameObject type variable called enemy
+            // GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
+            // enemy.transform.parent = _enemyContainer.transform;
+            // yield return new WaitForSeconds(5.0f);
         }
     }
 
@@ -66,5 +141,11 @@ public class SpawnManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         _playerAlive = false;
+    }
+
+    public void EnemyDestroyed()
+    {
+        _enemiesToDestroy -= 1;
+        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
     }
 }
