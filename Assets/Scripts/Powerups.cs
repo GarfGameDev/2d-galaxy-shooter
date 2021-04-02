@@ -62,6 +62,10 @@ public class Powerups : MonoBehaviour
                     break;
                 case 5:
                     _audioManager.PlayAudio();
+                    _player.EngageAntiSpeed();
+                    break;
+                case 6:
+                    _audioManager.PlayAudio();
                     _player.EngageMultiShot();
                     break;
                 default:

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     private float _playerSpeed = 8.0f;
     private int _doubleSpeed = 2;
+    private float _negativeSpeed = 0.4f;
     private float _thrusterSpeed = 12.0f;
     private float _fireRate = 0.5f;
     private float _nextFire;
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
     private bool _collectedSpeed = false;
     public bool collectedShield = false;
     public bool _isMultiShotActive = false;
+    public bool _antiSpeedActive = false;
 
     private UIManager _uiManager;
 
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(_playerSpeed * _negativeSpeed);
         _camera = GameObject.Find("Main Camera").GetComponent<MainCamera>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();   
@@ -145,44 +148,59 @@ public class Player : MonoBehaviour
 
         if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift) == false)
         {
-            _thruster.SetActive(false);
-            transform.Translate(direction * _playerSpeed * Time.deltaTime);
-
-            if (_thrusterTotal > 0 && Time.time > _nextThrust)
+            if (_antiSpeedActive == true)
             {
-                _nextThrust = Time.time + _thrusterDecelerate;
-                _thrusterTotal -= 1;
-                _uiManager.UpdateThrusterText(_thrusterTotal);
+                transform.Translate(direction * (_playerSpeed * _negativeSpeed) * Time.deltaTime);
             }
+
+            else 
+            {
+                _thruster.SetActive(false);
+                transform.Translate(direction * _playerSpeed * Time.deltaTime);
+
+                if (_thrusterTotal > 0 && Time.time > _nextThrust)
+                {
+                    _nextThrust = Time.time + _thrusterDecelerate;
+                    _thrusterTotal -= 1;
+                    _uiManager.UpdateThrusterText(_thrusterTotal);
+                }
+            }
+
+
         }
 
-        else if (_collectedSpeed == true)
+        else if (_collectedSpeed == true && _antiSpeedActive == false)
         {
             transform.Translate(direction * (_playerSpeed * _doubleSpeed) * Time.deltaTime);
         }
 
         else if (_collectedSpeed == false && Input.GetKey(KeyCode.LeftShift))
         {
-            
-            if (_thrusterTotal < 50)
+            if (_antiSpeedActive == false)
             {
-                _thruster.SetActive(true);
-                transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
-                if(Time.time > _nextThrust)
+                if (_thrusterTotal < 50)
                 {
-                    _nextThrust = Time.time + _thrusterAccelerate;
-                    _thrusterTotal += 1;
-                    _uiManager.UpdateThrusterText(_thrusterTotal);
-                }
+                    _thruster.SetActive(true);
+                    transform.Translate(direction * _thrusterSpeed * Time.deltaTime);
+                    if(Time.time > _nextThrust)
+                    {
+                        _nextThrust = Time.time + _thrusterAccelerate;
+                        _thrusterTotal += 1;
+                        _uiManager.UpdateThrusterText(_thrusterTotal);
+                    }
                 
 
-            }
+                }
 
+
+            }
             else
             {
-                _thruster.SetActive(false);
-                transform.Translate(direction * _playerSpeed * Time.deltaTime);
+                 _thruster.SetActive(false);
+                transform.Translate(direction * (_playerSpeed * _negativeSpeed) * Time.deltaTime);
             }
+            
+
             
         }
 
@@ -290,6 +308,17 @@ public class Player : MonoBehaviour
         _collectedSpeed = false;
     }
 
+    public void EngageAntiSpeed()
+    {
+        _antiSpeedActive = true;
+        StartCoroutine(AntiSpeedTimer());
+    }
+
+    IEnumerator AntiSpeedTimer()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _antiSpeedActive = false;
+    }
     public void EngageShieldPowerup()
     {
         _shield = Instantiate(_shieldPrefab, transform.position, Quaternion.identity);

@@ -124,13 +124,13 @@ public class SpawnManager : MonoBehaviour
             if (randomValue < 0.2f)
             {
                 Debug.Log("Chance to spawn multishot");
-                int multishotChance = Random.Range(0, 6);
+                int multishotChance = Random.Range(0, 7);
                 Instantiate(_powerups[multishotChance], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity); 
                 yield return new WaitForSeconds(3.0f);
             }
             else 
             {
-                int randomPowerUp = Random.Range(0, 5);
+                int randomPowerUp = Random.Range(0, 6);
                 Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
                 yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
             }

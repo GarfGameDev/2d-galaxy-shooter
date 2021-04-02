@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  _powerupID: 5
+  _powerupID: 6
 --- !u!222 &3689688811636739217
 CanvasRenderer:
   m_ObjectHideFlags: 0
