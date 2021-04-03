@@ -8,11 +8,14 @@ public class BeamEnemy : MonoBehaviour
 
     [SerializeField]
     private GameObject _beamLaser;
+    [SerializeField]
+    private GameObject _shield;
 
     [SerializeField]
     private bool _isRotatingRight;
     private bool _canFire = true;
     private bool _isAlive = true;
+    private bool _shieldActive = true;
 
     [SerializeField]
     private AudioClip _enemyExplodeAudio;
@@ -66,12 +69,23 @@ public class BeamEnemy : MonoBehaviour
     {
         if (other.tag == "Laser")
         {
-            _audio.Play();
-            _enemyAnim.SetTrigger("OnEnemyDeath");
-            _spawnManager.EnemyDestroyed();
-            Destroy(other.gameObject);
-            Destroy(GetComponent<Collider2D>());
-            StartCoroutine(DestroyEnemyRoutine(this.gameObject));
+            if (_shieldActive == true) 
+            {
+                _shieldActive = false;
+                _shield.SetActive(false);
+                Destroy(other.gameObject);
+            }
+
+            else 
+            {
+                _audio.Play();
+                _enemyAnim.SetTrigger("OnEnemyDeath");
+                _spawnManager.EnemyDestroyed();
+                Destroy(other.gameObject);
+                Destroy(GetComponent<Collider2D>());
+                StartCoroutine(DestroyEnemyRoutine(this.gameObject));
+            }
+
         }
     }
 
