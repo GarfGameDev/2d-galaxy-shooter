@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
     public bool collectedShield = false;
     public bool _isMultiShotActive = false;
     public bool _antiSpeedActive = false;
+    private bool _isInvincible;
 
     private UIManager _uiManager;
 
@@ -133,6 +134,10 @@ public class Player : MonoBehaviour
         if (other.tag == "EnemyLaser")
         {
             Destroy(other.gameObject);
+            Damage();
+        }
+        if (other.tag == "BeamLaser")
+        {
             Damage();
         }
     }
@@ -220,67 +225,65 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _camera.ShakeCamera();
 
-        if (collectedShield == true)
+        if (_isInvincible == true) 
         {
-            _shieldHealth -= 1;
+            return;
+        }
 
-            switch(_shieldHealth)
+        if (_isInvincible == false) 
+        {
+            StartCoroutine(InvincibleRoutine());
+            _camera.ShakeCamera();
+            if (collectedShield == true)
+            {
+                _shieldHealth -= 1;
+
+                switch(_shieldHealth)
+                {
+                    case 0:
+                        Destroy(_shield.gameObject);
+                        collectedShield = false;
+                        break;
+                    case 1:
+                        _shieldVisualHealth.color = Color.red;
+                        break;
+                    case 2:
+                        _shieldVisualHealth.color = Color.yellow;
+                        break;
+                    case 3:
+                        _shieldVisualHealth.color = Color.magenta;
+                        break;
+                    default:
+                        Debug.Log("Something has gone wrong with the Shield Health");
+                        break;
+
+                }
+            }
+            else 
+            {
+                _playerLives -= 1;
+                _uiManager.UpdateLives(_playerLives);
+            }
+
+            switch(_playerLives)
             {
                 case 0:
-                    Destroy(_shield.gameObject);
-                    collectedShield = false;
+                    _spawnManager.OnPlayerDeath();
+                    Destroy(this.gameObject);
                     break;
                 case 1:
-                    _shieldVisualHealth.color = Color.red;
+                    _leftEngine.SetActive(true);
                     break;
                 case 2:
-                    _shieldVisualHealth.color = Color.yellow;
-                    break;
-                case 3:
-                    _shieldVisualHealth.color = Color.magenta;
+                    _rightEngine.SetActive(true);
                     break;
                 default:
-                    Debug.Log("Something has gone wrong with the Shield Health");
+                    Debug.Log("Shield took the hit");
                     break;
-
             }
         }
-        else 
-        {
-            _playerLives -= 1;
-            _uiManager.UpdateLives(_playerLives);
-        }
 
-        switch(_playerLives)
-        {
-            case 0:
-                _spawnManager.OnPlayerDeath();
-                Destroy(this.gameObject);
-                break;
-            case 1:
-                _leftEngine.SetActive(true);
-                break;
-            case 2:
-                _rightEngine.SetActive(true);
-                break;
-            default:
-                Debug.Log("Shield took the hit");
-                break;
-        }
-
-
-
-        
-        
-
-        // if (_playerLives < 1)
-        // {
-            
-        //     _spawnManager.OnPlayerDeath();
-        //     Destroy(this.gameObject);
-        // }
     }
 
     public void EngageTripleShot()
@@ -367,6 +370,13 @@ public class Player : MonoBehaviour
             _rightEngine.SetActive(false);
             _uiManager.UpdateLives(_playerLives);
         }
+    }
+
+    IEnumerator InvincibleRoutine()
+    {
+        _isInvincible = true;
+        yield return new WaitForSeconds(1.0f);
+        _isInvincible = false;
     }
 
 

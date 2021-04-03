@@ -7,11 +7,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemy;
     [SerializeField]
+    private GameObject _beamEnemy;
+    [SerializeField]
     private GameObject _enemyContainer;
 
     private int _wave = 1;
     [SerializeField]
     private int _enemyCount;
+    private int  _beamEnemyCount;
     [SerializeField]
     private int _enemiesToDestroy;
 
@@ -31,7 +34,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnPowerup());
         _uiManager.UpdateWave(_wave);
-        _enemiesToDestroy = 3;
+        _enemiesToDestroy = 4;
         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
     }
 
@@ -56,12 +59,20 @@ public class SpawnManager : MonoBehaviour
                         enemy.transform.parent = _enemyContainer.transform;
                         _enemyCount += 1;
                         yield return new WaitForSeconds(5.0f);
+
+                        if (_beamEnemyCount < 1)
+                        {
+                            Instantiate(_beamEnemy, new Vector3(0, 6, 0), Quaternion.identity);
+                            _beamEnemyCount += 1;
+                        }
+                    
                    }
                    else 
                    {
                        yield return new WaitUntil(() => _enemiesToDestroy == 0);
                        _enemyCount = 0;
-                       _enemiesToDestroy = 5;
+                       _enemiesToDestroy = 6;
+                       _beamEnemyCount = 0;
                        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                        _wave += 1;
                        _uiManager.UpdateWave(_wave);
@@ -75,12 +86,19 @@ public class SpawnManager : MonoBehaviour
                         enemy.transform.parent = _enemyContainer.transform;
                         _enemyCount += 1;
                         yield return new WaitForSeconds(5.0f);
+
+                        if (_beamEnemyCount < 1)
+                        {
+                            Instantiate(_beamEnemy, new Vector3(0, 6, 0), Quaternion.identity);
+                            _beamEnemyCount += 1;
+                        }
                    }
                     else 
                     {
                         yield return new WaitUntil(() => _enemiesToDestroy == 0);
                         _enemyCount = 0;
                         _enemiesToDestroy = 8;
+                        _beamEnemyCount = 0;
                         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                         _wave += 1;
                         _uiManager.UpdateWave(_wave);
@@ -94,6 +112,12 @@ public class SpawnManager : MonoBehaviour
                         enemy.transform.parent = _enemyContainer.transform;
                         _enemyCount += 1;
                         yield return new WaitForSeconds(5.0f);
+
+                        if (_beamEnemyCount < 1)
+                        {
+                            Instantiate(_beamEnemy, new Vector3(0, 6, 0), Quaternion.identity);
+                            _beamEnemyCount += 1;
+                        }
                    }
                     else 
                     {

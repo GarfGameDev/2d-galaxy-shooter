@@ -837,6 +837,7 @@ MonoBehaviour:
   _laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   collectedShield: 0
   _isMultiShotActive: 0
+  _antiSpeedActive: 0
 --- !u!212 &655981073
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2108,6 +2109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 2671109479577969214, guid: 1398b77f5e45d1948866670bb6e5dbad, type: 3}
+  _beamEnemy: {fileID: 2861279936596955363, guid: 0595a5ba5ae05bc43b37a52a58ada679, type: 3}
   _enemyContainer: {fileID: 1015292705}
   _enemyCount: 0
   _enemiesToDestroy: 0
@@ -2117,6 +2119,7 @@ MonoBehaviour:
   - {fileID: 3566364524138609935, guid: 58167e77f614d7b48a32fe1fb1e35d88, type: 3}
   - {fileID: 690298359297074496, guid: c5fea6c5fa46d084face2d99f1eab746, type: 3}
   - {fileID: 3140764460599801377, guid: ad30fdf7ed30dff49b636c862cd7e242, type: 3}
+  - {fileID: 6517971943294024432, guid: b226982127ad9da458e18b9724da3f1f, type: 3}
   - {fileID: 1834900328304947377, guid: 9f07f943faaee1b4b8bea4182d63af73, type: 3}
 --- !u!82 &1604086589
 AudioSource:
