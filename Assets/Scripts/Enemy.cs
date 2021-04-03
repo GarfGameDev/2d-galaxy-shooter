@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _verticalSpeed = 1.0f;
     private float _horizontalSpeed = 4.0f;
+    private float _ramSpeed = 8.0f;
+    private float _rotationSpeed = 250.0f;
 
     private Player _player;
 
@@ -15,6 +17,8 @@ public class Enemy : MonoBehaviour
 
     private Animator _enemyAnim;
     private Collider2D _collider;
+
+
 
     [SerializeField]
     private AudioClip _enemyExplodeAudio;
@@ -35,6 +39,7 @@ public class Enemy : MonoBehaviour
         _audio = GetComponent<AudioSource>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
+
         _enemyCanFire = true;
 
         StartCoroutine(SpawnLaser());
@@ -47,7 +52,26 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Update()
     {
-        Movement();
+        if (_player != null)
+        {
+            Vector3 rotationDirection = _player.transform.position - transform.position;
+            Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 180) * rotationDirection;
+            float distance = Vector3.Distance(_player.transform.position, transform.position);
+
+            if (distance < 5.0f && transform.position.y > _player.transform.position.y)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, rotatedVectorToTarget);
+                transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _ramSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+            }
+            else 
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                Movement();
+            }
+        }
+
+        
     }
 
     private void Movement()
@@ -91,6 +115,8 @@ public class Enemy : MonoBehaviour
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -10.8f, 10.8f), transform.position.y, 0);
+
+
     }
 
 
@@ -107,6 +133,8 @@ public class Enemy : MonoBehaviour
             _spawnManager.EnemyDestroyed();
             _horizontalSpeed = 0;
             _verticalSpeed = 0;
+            _ramSpeed = 0;
+            _rotationSpeed = 0;
             _collider.enabled = false;
             _audio.Play();
             StartCoroutine(DestroyEnemyRoutine(this.gameObject));
@@ -122,6 +150,8 @@ public class Enemy : MonoBehaviour
             _enemyAnim.SetTrigger("OnEnemyDeath");
             _spawnManager.EnemyDestroyed();
             _horizontalSpeed = 0;
+            _ramSpeed = 0;
+            _rotationSpeed = 0;
             _verticalSpeed = 0;
             Destroy(other.gameObject);
             _collider.enabled = false;

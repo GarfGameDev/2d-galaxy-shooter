@@ -21,6 +21,7 @@ public class BeamEnemy : MonoBehaviour
     private AudioClip _enemyExplodeAudio;
     private SpawnManager _spawnManager;
     private Animator _enemyAnim;
+    
 
     private AudioSource _audio;
     // Start is called before the first frame update
