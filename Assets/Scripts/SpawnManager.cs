@@ -145,17 +145,35 @@ public class SpawnManager : MonoBehaviour
         while (_playerAlive == true) 
         {
             float randomValue = Random.value;
-            if (randomValue < 0.2f)
+            if (randomValue <= 0.1f)
             {
-                Debug.Log("Chance to spawn multishot");
                 int multishotChance = Random.Range(0, 7);
                 Instantiate(_powerups[multishotChance], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity); 
                 yield return new WaitForSeconds(3.0f);
             }
-            else 
+            else if (randomValue > 0.1f && randomValue < 0.5f)
             {
-                int randomPowerUp = Random.Range(0, 6);
-                Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
+                float secondValue = Random.value;
+                if (secondValue < 0.4f)
+                {
+                    int randomPowerUp = Random.Range(0, 6);
+                    Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
+                    yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
+                }
+
+                else 
+                {
+                    Debug.Log("Chance for health spawn");
+                    int randomPowerUp = Random.Range(0, 5);
+                    Instantiate(_powerups[randomPowerUp], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);           
+                    yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
+                }
+            }
+
+            else if (randomValue > 0.5f)
+            {
+                Debug.Log("Ammo Spawn");
+                Instantiate(_powerups[3], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity);
                 yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
             }
 
