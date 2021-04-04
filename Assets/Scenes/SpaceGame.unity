@@ -2110,6 +2110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 2671109479577969214, guid: 1398b77f5e45d1948866670bb6e5dbad, type: 3}
   _beamEnemy: {fileID: 2861279936596955363, guid: 0595a5ba5ae05bc43b37a52a58ada679, type: 3}
+  _backwardEnemy: {fileID: 3858587640477173795, guid: d5f40e0769b317b45b232a96580e846f, type: 3}
   _enemyContainer: {fileID: 1015292705}
   _enemyCount: 0
   _enemiesToDestroy: 0

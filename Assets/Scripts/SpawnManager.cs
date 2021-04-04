@@ -9,32 +9,36 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _beamEnemy;
     [SerializeField]
+    private GameObject _backwardEnemy;
+    [SerializeField]
     private GameObject _enemyContainer;
 
     private int _wave = 1;
     [SerializeField]
     private int _enemyCount;
     private int  _beamEnemyCount;
+    private int _backwardEnemyCount;
     [SerializeField]
     private int _enemiesToDestroy;
 
     private UIManager _uiManager;
+    //private Enemy _backwardEnemyScript;
 
 
     [SerializeField]
     private GameObject[] _powerups;
 
     private bool _playerAlive = true;
-    // Start is called before the first frame update
 
 
     public void StartGame()
     {
+        
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnPowerup());
         _uiManager.UpdateWave(_wave);
-        _enemiesToDestroy = 4;
+        _enemiesToDestroy = 6;
         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
     }
 
@@ -64,6 +68,16 @@ public class SpawnManager : MonoBehaviour
                         {
                             Instantiate(_beamEnemy, new Vector3(0, 6, 0), Quaternion.identity);
                             _beamEnemyCount += 1;
+                        }
+
+                        if (_backwardEnemyCount < 2)
+                        {
+                            Vector3 backwardPosition = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+                            GameObject backwardEnemy = Instantiate(_backwardEnemy, backwardPosition, Quaternion.identity);
+                            Enemy _backwardEnemyScript = backwardEnemy.GetComponent<Enemy>();
+                            backwardEnemy.transform.parent = _enemyContainer.transform;
+                            _backwardEnemyScript.BackwardEnemy();
+                            _backwardEnemyCount += 1;
                         }
                     
                    }

@@ -9,11 +9,15 @@ public class Enemy : MonoBehaviour
     private float _horizontalSpeed = 4.0f;
     private float _ramSpeed = 8.0f;
     private float _rotationSpeed = 250.0f;
+    private float _fireRate = 0.1f;
+    private float _nextFire;
 
     private Player _player;
 
     [SerializeField]
     private GameObject _enemyLaser;
+    [SerializeField]
+    private GameObject _backwardLaser;
 
     private Animator _enemyAnim;
     private Collider2D _collider;
@@ -30,6 +34,7 @@ public class Enemy : MonoBehaviour
 
     private bool _enemyCanFire = false;
     private bool _movingRight = true;
+    private bool _isBackwardEnemy = false;
 
     void Start()
     {
@@ -42,7 +47,12 @@ public class Enemy : MonoBehaviour
 
         _enemyCanFire = true;
 
-        StartCoroutine(SpawnLaser());
+        if (_isBackwardEnemy == false) 
+        {
+            StartCoroutine(SpawnLaser());
+        }
+
+        
 
         if (_audio != null)
         {
@@ -54,6 +64,11 @@ public class Enemy : MonoBehaviour
     {
         if (_player != null)
         {
+            if (_isBackwardEnemy == true)
+            {
+                FireBackwardLaser();
+            }
+
             Vector3 rotationDirection = _player.transform.position - transform.position;
             Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 180) * rotationDirection;
             float distance = Vector3.Distance(_player.transform.position, transform.position);
@@ -191,6 +206,28 @@ public class Enemy : MonoBehaviour
             }
 
         }
+    }
+
+    public void BackwardEnemy()
+    {
+        _isBackwardEnemy = true;
+    }
+
+    private void FireBackwardLaser()
+    {
+        if (transform.position.y < _player.transform.position.y && Time.time > _nextFire)
+        {
+            
+            _nextFire = Time.time + _fireRate;
+            GameObject backwardEnemy = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+            Laser[] lasers = backwardEnemy.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].BackwardEnemyLaser();
+            }
+        }
+
     }
 
 }

@@ -6,6 +6,7 @@ public class Laser : MonoBehaviour
 {
     private float _laserSpeed = 8.0f;
     private bool _isEnemyLaser = false;
+    private bool _isBackwardLaser = false;
 
     // Update is called once per frame
     void Update()
@@ -17,6 +18,11 @@ public class Laser : MonoBehaviour
         else
         {
             MoveDown();
+        }
+
+        if (_isBackwardLaser)
+        {
+            MoveUp();
         }
         
 
@@ -58,6 +64,11 @@ public class Laser : MonoBehaviour
     public void EnemyLaser()
     {
         _isEnemyLaser = true;
+    }
+
+    public void BackwardEnemyLaser()
+    {
+        _isBackwardLaser = true;
     }
 
     // private void OnTriggerEnter(Collider other)
