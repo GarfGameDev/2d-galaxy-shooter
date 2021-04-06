@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     private bool _enemyCanFire = false;
     private bool _movingRight = true;
     private bool _isBackwardEnemy = false;
+    [SerializeField]
+    private bool _canFire = false;
 
     void Start()
     {
@@ -47,7 +49,7 @@ public class Enemy : MonoBehaviour
 
         _enemyCanFire = true;
 
-        if (_isBackwardEnemy == false) 
+        if (_isBackwardEnemy == false && this.gameObject != null) 
         {
             StartCoroutine(SpawnLaser());
         }
@@ -62,7 +64,8 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Update()
     {
-        if (_player != null)
+
+        if (_player != null && this.gameObject != null)
         {
             if (_isBackwardEnemy == true)
             {
@@ -180,6 +183,7 @@ public class Enemy : MonoBehaviour
     IEnumerator DestroyEnemyRoutine(GameObject enemy)
     {
         _enemyCanFire = false;
+        _canFire = false;
         yield return new WaitForSeconds(2.8f);
         Destroy(enemy);
     }
@@ -215,19 +219,58 @@ public class Enemy : MonoBehaviour
 
     private void FireBackwardLaser()
     {
-        if (transform.position.y < _player.transform.position.y && Time.time > _nextFire)
+        if (this.gameObject != null)
         {
-            
-            _nextFire = Time.time + _fireRate;
-            GameObject backwardEnemy = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-            Laser[] lasers = backwardEnemy.GetComponentsInChildren<Laser>();
-
-            for (int i = 0; i < lasers.Length; i++)
+            if (transform.position.y < _player.transform.position.y && Time.time > _nextFire)
             {
-                lasers[i].BackwardEnemyLaser();
+                
+                _nextFire = Time.time + _fireRate;
+                GameObject backwardEnemy = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+                Laser[] lasers = backwardEnemy.GetComponentsInChildren<Laser>();
+
+                for (int i = 0; i < lasers.Length; i++)
+                {
+                    lasers[i].BackwardEnemyLaser();
+                }
             }
+        }
+        else 
+        {
+            return;
         }
 
     }
+
+    public void FireLaser()
+    {
+        StartCoroutine(FireLaserRoutine());
+    }
+
+    IEnumerator FireLaserRoutine()
+    {
+        _canFire = true;
+        yield return new WaitForSeconds(0.1f);
+
+        if (_canFire == true)
+        {
+            
+                GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
+                Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+                for (int i = 0; i < lasers.Length; i++)
+                {
+                    lasers[i].EnemyLaser();
+                }
+
+                _canFire = false;
+        }
+
+        else 
+        {
+            Debug.Log("Can't fire");
+        }
+    }
+
+   
 
 }
