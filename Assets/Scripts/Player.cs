@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private int _doubleSpeed = 2;
     private float _negativeSpeed = 0.4f;
     private float _thrusterSpeed = 12.0f;
+    private float _powerupSpeed = 3.0f;
     private float _fireRate = 0.5f;
     private float _nextFire;
     private float _thrusterAccelerate = 0.1f;
@@ -97,6 +98,11 @@ public class Player : MonoBehaviour
                 Debug.Log("You are out of ammo!");
             }
 
+        }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            CollectPowerup();
         }
         
     }
@@ -284,6 +290,26 @@ public class Player : MonoBehaviour
             }
         }
 
+    }
+
+    private void CollectPowerup()
+    {
+        GameObject[] _powerups = GameObject.FindGameObjectsWithTag("Powerup");
+        Transform[] powerupTransform = new Transform[_powerups.Length];
+
+        //_powerups.MoveToPlayer();
+
+        for (int i = 0; i < _powerups.Length; i++)
+        {
+            powerupTransform[i] = _powerups[i].transform;
+
+            powerupTransform[i].position = Vector3.MoveTowards(powerupTransform[i].position, transform.position, _powerupSpeed * Time.deltaTime);
+        }
+
+        //_powerups.transform.position = Vector3.MoveTowards(_powerups.transform.position, transform.position, _powerupSpeed * Time.deltaTime);
+
+        
+        
     }
 
     public void EngageTripleShot()

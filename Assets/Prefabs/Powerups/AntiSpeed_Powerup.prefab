@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8247727509266671118}
   m_Layer: 0
   m_Name: AntiSpeed_Powerup
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,3 +166,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _powerupID: 5
+  _enemy: {fileID: 0}

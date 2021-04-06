@@ -10,7 +10,6 @@ public class Powerups : MonoBehaviour
     [SerializeField]
     private int _powerupID;
 
-    [SerializeField]
     private Enemy _enemy;
 
     private AudioManager _audioManager;
@@ -20,6 +19,7 @@ public class Powerups : MonoBehaviour
     {
         _enemy = GameObject.Find("Enemy(Clone)").GetComponent<Enemy>();
         _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        
 
         if (_enemy == null)
         {
@@ -104,6 +104,8 @@ public class Powerups : MonoBehaviour
             Destroy(this.gameObject);
         }
     } 
+
+
 
 
 }

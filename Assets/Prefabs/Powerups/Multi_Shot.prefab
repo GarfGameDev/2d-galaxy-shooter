@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 510911782696192257}
   m_Layer: 0
   m_Name: Multi_Shot
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _powerupID: 6
+  _enemy: {fileID: 0}
 --- !u!222 &3689688811636739217
 CanvasRenderer:
   m_ObjectHideFlags: 0
