@@ -17,14 +17,19 @@ public class Powerups : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _enemy = GameObject.Find("Enemy(Clone)").GetComponent<Enemy>();
+        if (GameObject.Find("Enemy(Clone)") != null)
+        {
+            _enemy = GameObject.Find("Enemy(Clone)").GetComponent<Enemy>();
+        }
+
+        else 
+        {
+            Debug.Log("There are no enemies on screen");
+        }
+        
         _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
         
 
-        if (_enemy == null)
-        {
-            Debug.Log("Enemy is null");
-        }
     }
 
     // Update is called once per frame

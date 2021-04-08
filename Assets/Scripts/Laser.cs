@@ -8,6 +8,16 @@ public class Laser : MonoBehaviour
     private bool _isEnemyLaser = false;
     private bool _isBackwardLaser = false;
 
+    private DodgeEnemy _dodgeEnemy;
+
+    void Start()
+    {
+        if (GameObject.Find("DodgingEnemy(Clone)") != null)
+        {
+            _dodgeEnemy = GameObject.Find("DodgingEnemy(Clone)").GetComponent<DodgeEnemy>();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -48,6 +58,27 @@ public class Laser : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (_dodgeEnemy != null)
+        {
+            float distanceY = _dodgeEnemy.transform.position.y - transform.position.y;
+            float distanceX = _dodgeEnemy.transform.position.x - transform.position.x;
+            Debug.Log(distanceX);
+            if (distanceY < 5.0f)
+            {
+                if (distanceX > 0f && distanceX < 1.0f)
+                {
+                    _dodgeEnemy.DodgeLaserRight();
+                }
+
+                if (distanceX < 0f && distanceX > -1.0f)
+                {
+                    _dodgeEnemy.DodgeLaserLeft();
+                }
+                 
+            }
+        }
+
     }
 
     void MoveDown()

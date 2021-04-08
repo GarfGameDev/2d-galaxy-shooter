@@ -41,7 +41,11 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _enemyAnim = GetComponent<Animator>();
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        if (GameObject.Find("Player") != null)
+        {
+            _player = GameObject.Find("Player").GetComponent<Player>();
+        }
+        
         _collider = GetComponent<Collider2D>();
         _audio = GetComponent<AudioSource>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();

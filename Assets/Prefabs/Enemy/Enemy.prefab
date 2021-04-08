@@ -45,13 +45,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2671109479577969214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83640cc81e0a11946bd2098924e6a06d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d40887de2ec2d846bd81453f4f5040b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _verticalSpeed: 1
   _enemyLaser: {fileID: 523698016260274704, guid: b4b42d0a5a5abd74d9ef0ed3c52e8cd9, type: 3}
-  _backwardLaser: {fileID: 6946373605242677280, guid: f049249d07f93d442a1d4ab47f1c9d60, type: 3}
+  _backwardLaser: {fileID: 6482537578045108587, guid: f049249d07f93d442a1d4ab47f1c9d60, type: 3}
   _enemyExplodeAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _canFire: 0
 --- !u!61 &555662496466983268
 BoxCollider2D:
   m_ObjectHideFlags: 0

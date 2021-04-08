@@ -11,6 +11,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _backwardEnemy;
     [SerializeField]
+    private GameObject _dodgingEnemy;
+    [SerializeField]
     private GameObject _enemyContainer;
 
     private int _wave = 1;
@@ -18,6 +20,7 @@ public class SpawnManager : MonoBehaviour
     private int _enemyCount;
     private int  _beamEnemyCount;
     private int _backwardEnemyCount;
+    private int _dodgeEnemyCount;
     [SerializeField]
     private int _enemiesToDestroy;
 
@@ -38,7 +41,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnPowerup());
         _uiManager.UpdateWave(_wave);
-        _enemiesToDestroy = 6;
+        _enemiesToDestroy = 7;
         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
     }
 
@@ -79,14 +82,21 @@ public class SpawnManager : MonoBehaviour
                             _backwardEnemyScript.BackwardEnemy();
                             _backwardEnemyCount += 1;
                         }
+
+                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1)
+                        {
+                            Instantiate(_dodgingEnemy, position, Quaternion.identity);
+                            _dodgeEnemyCount += 1;
+                        }
                     
                    }
                    else 
                    {
                        yield return new WaitUntil(() => _enemiesToDestroy == 0);
                        _enemyCount = 0;
-                       _enemiesToDestroy = 6;
+                       _enemiesToDestroy = 7;
                        _beamEnemyCount = 0;
+                       _dodgeEnemyCount = 0;
                        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                        _wave += 1;
                        _uiManager.UpdateWave(_wave);
@@ -106,12 +116,18 @@ public class SpawnManager : MonoBehaviour
                             Instantiate(_beamEnemy, new Vector3(0, 6, 0), Quaternion.identity);
                             _beamEnemyCount += 1;
                         }
+
+                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1)
+                        {
+                            Instantiate(_dodgingEnemy, position, Quaternion.identity);
+                            _dodgeEnemyCount += 1;
+                        }
                    }
                     else 
                     {
                         yield return new WaitUntil(() => _enemiesToDestroy == 0);
                         _enemyCount = 0;
-                        _enemiesToDestroy = 8;
+                        _enemiesToDestroy = 10;
                         _beamEnemyCount = 0;
                         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                         _wave += 1;
@@ -131,6 +147,12 @@ public class SpawnManager : MonoBehaviour
                         {
                             Instantiate(_beamEnemy, new Vector3(0, 6, 0), Quaternion.identity);
                             _beamEnemyCount += 1;
+                        }
+
+                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1)
+                        {
+                            Instantiate(_dodgingEnemy, position, Quaternion.identity);
+                            _dodgeEnemyCount += 1;
                         }
                    }
                     else 

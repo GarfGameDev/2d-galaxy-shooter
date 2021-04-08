@@ -687,7 +687,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &639976192
 GameObject:
@@ -1981,7 +1981,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1417256683
 GameObject:
@@ -2111,6 +2111,7 @@ MonoBehaviour:
   _enemy: {fileID: 2671109479577969214, guid: 1398b77f5e45d1948866670bb6e5dbad, type: 3}
   _beamEnemy: {fileID: 2861279936596955363, guid: 0595a5ba5ae05bc43b37a52a58ada679, type: 3}
   _backwardEnemy: {fileID: 3858587640477173795, guid: d5f40e0769b317b45b232a96580e846f, type: 3}
+  _dodgingEnemy: {fileID: 4361917096464075815, guid: 258be1a2e5e93a4488d82ecd578fbdb4, type: 3}
   _enemyContainer: {fileID: 1015292705}
   _enemyCount: 0
   _enemiesToDestroy: 0
@@ -2755,7 +2756,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
     - target: {fileID: 7746521847557943424, guid: 955870559f403bd408562c3b6c8df2cf, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7746521847557943424, guid: 955870559f403bd408562c3b6c8df2cf, type: 3}
       propertyPath: m_LocalPosition.x
