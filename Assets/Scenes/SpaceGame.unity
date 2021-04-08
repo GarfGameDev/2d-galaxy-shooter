@@ -230,7 +230,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &427503830 stripped
 GameObject:
@@ -577,8 +577,9 @@ RectTransform:
   - {fileID: 639976193}
   - {fileID: 1310280245}
   - {fileID: 2043736526}
+  - {fileID: 1204258007}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -834,6 +835,7 @@ MonoBehaviour:
   _leftEngine: {fileID: 1124481691}
   _laserContainer: {fileID: 1119560650}
   _thruster: {fileID: 441442443}
+  _homingMissile: {fileID: 3204973155452323085, guid: 3a9c94d5bb69d02428253a0c2b8a03f2, type: 3}
   _laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   collectedShield: 0
   _isMultiShotActive: 0
@@ -1844,6 +1846,85 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &1204258006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1204258007}
+  - component: {fileID: 1204258008}
+  - component: {fileID: 1204258009}
+  m_Layer: 5
+  m_Name: Missile_text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1204258007
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204258006}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501820790}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 99.828, y: 14.4}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1204258008
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204258006}
+  m_CullTransparentMesh: 1
+--- !u!114 &1204258009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204258006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Missile: 1/1'
 --- !u!1 &1310280242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +2046,7 @@ MonoBehaviour:
   _ammoText: {fileID: 1417256685}
   _thrusterText: {fileID: 1880253269}
   _maxAmmo: 15
+  _missileText: {fileID: 1204258009}
   _waveOneText: {fileID: 44574850}
   _waveTwoText: {fileID: 639976195}
   _waveThreeText: {fileID: 1310280243}
@@ -2123,6 +2205,7 @@ MonoBehaviour:
   - {fileID: 3140764460599801377, guid: ad30fdf7ed30dff49b636c862cd7e242, type: 3}
   - {fileID: 6517971943294024432, guid: b226982127ad9da458e18b9724da3f1f, type: 3}
   - {fileID: 1834900328304947377, guid: 9f07f943faaee1b4b8bea4182d63af73, type: 3}
+  - {fileID: 4639949301597618390, guid: 47c84b7d2a7aa7a41abf70b240d822ac, type: 3}
 --- !u!82 &1604086589
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2504,7 +2587,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972492083
 GameObject:
@@ -2756,7 +2839,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
     - target: {fileID: 7746521847557943424, guid: 955870559f403bd408562c3b6c8df2cf, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7746521847557943424, guid: 955870559f403bd408562c3b6c8df2cf, type: 3}
       propertyPath: m_LocalPosition.x

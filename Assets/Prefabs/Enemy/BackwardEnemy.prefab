@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _verticalSpeed: 1
   _enemyLaser: {fileID: 523698016260274704, guid: b4b42d0a5a5abd74d9ef0ed3c52e8cd9, type: 3}
-  _backwardLaser: {fileID: 6482537578045108587, guid: f049249d07f93d442a1d4ab47f1c9d60, type: 3}
+  _backwardLaser: {fileID: 523698016260274704, guid: b4b42d0a5a5abd74d9ef0ed3c52e8cd9, type: 3}
   _enemyExplodeAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _canFire: 0
 --- !u!61 &1669646822036829049
@@ -120,7 +120,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3154912113cbb4a498df6f571c74e18c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.32861233, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

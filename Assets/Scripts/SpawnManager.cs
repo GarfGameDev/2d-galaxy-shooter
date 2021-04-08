@@ -129,6 +129,7 @@ public class SpawnManager : MonoBehaviour
                         _enemyCount = 0;
                         _enemiesToDestroy = 10;
                         _beamEnemyCount = 0;
+                        _dodgeEnemyCount = 0;
                         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                         _wave += 1;
                         _uiManager.UpdateWave(_wave);
@@ -183,7 +184,7 @@ public class SpawnManager : MonoBehaviour
             float randomValue = Random.value;
             if (randomValue <= 0.1f)
             {
-                int multishotChance = Random.Range(0, 7);
+                int multishotChance = Random.Range(0, 8);
                 Instantiate(_powerups[multishotChance], new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0), Quaternion.identity); 
                 yield return new WaitForSeconds(3.0f);
             }

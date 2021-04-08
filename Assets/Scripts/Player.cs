@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     private int _shieldHealth;
     private int _ammoCount = 15;
     private int _thrusterTotal = 0;
+    private int _missileCount = 1;
 
     [SerializeField]
     private GameObject _laser;
@@ -38,6 +39,8 @@ public class Player : MonoBehaviour
     private GameObject _laserContainer;
     [SerializeField]
     private GameObject _thruster;
+    [SerializeField]
+    private GameObject _homingMissile;
 
     [SerializeField]
     private AudioClip _laserAudio;
@@ -104,6 +107,11 @@ public class Player : MonoBehaviour
         {
             CollectPowerup();
         }
+
+        if (Input.GetKeyDown(KeyCode.F) && _missileCount > 0)
+        {
+            FireMissile();
+        }
         
     }
 
@@ -133,6 +141,14 @@ public class Player : MonoBehaviour
 
         _audio.Play();
        
+    }
+
+    private void FireMissile()
+    {
+        Instantiate(_homingMissile, transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+        _missileCount -= 1;
+        _uiManager.UpdateMissileText(_missileCount); 
+        _audio.Play();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -379,6 +395,12 @@ public class Player : MonoBehaviour
     {
         _ammoCount = 15;
         _uiManager.UpdateAmmoText(_ammoCount);
+    }
+
+    public void RefillMissileAmmo()
+    {
+        _missileCount = 1;
+        _uiManager.UpdateMissileText(_missileCount);
     }
 
     public void HealPlayer()

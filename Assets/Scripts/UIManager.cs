@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
     private Text _thrusterText;
     [SerializeField]
     private int _maxAmmo = 15;
+    [SerializeField]
+    private Text _missileText;
 
     [SerializeField]
     private Text _waveOneText;
@@ -65,6 +67,11 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmoText(int ammoCount)
     {
         _ammoText.text = "Ammo: " + ammoCount + "/" + _maxAmmo;
+    }
+
+    public void UpdateMissileText(int missileCount)
+    {
+        _missileText.text = "Missile: " + missileCount + "/1";
     }
 
     public void UpdateThrusterText(int thrusterTotal)
