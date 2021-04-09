@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     private float _horizontalSpeed = 4.0f;
     private float _ramSpeed = 8.0f;
     private float _rotationSpeed = 250.0f;
-    private float _fireRate = 0.1f;
+    private float _fireRate = 0.5f;
     private float _nextFire;
 
     private Player _player;
@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
 
     private bool _enemyCanFire = false;
     private bool _movingRight = true;
+    [SerializeField]
     private bool _isBackwardEnemy = false;
     [SerializeField]
     private bool _canFire = false;
@@ -223,19 +224,23 @@ public class Enemy : MonoBehaviour
 
     private void FireBackwardLaser()
     {
-        if (this.gameObject != null)
+        if (_enemyCanFire == true) 
         {
-            if (transform.position.y < _player.transform.position.y && Time.time > _nextFire)
-            {
-                
-                _nextFire = Time.time + _fireRate;
-                GameObject backwardEnemy = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-                Laser[] lasers = backwardEnemy.GetComponentsInChildren<Laser>();
 
-                for (int i = 0; i < lasers.Length; i++)
-                {
-                    lasers[i].BackwardEnemyLaser();
-                }
+            if (transform.position.y < _player.transform.position.y && Time.time > _nextFire)
+            {     
+                _nextFire = Time.time + _fireRate;
+                GameObject backwardEnemy1 = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(0, 0, 30));
+                GameObject backwardEnemy2 = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(0, 0, 0));
+                GameObject backwardEnemy3 = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.Euler(0, 0, 330));
+
+                // GameObject backwardEnemy = Instantiate(_backwardLaser, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+                // Laser[] lasers = backwardEnemy.GetComponentsInChildren<Laser>();
+
+                // for (int i = 0; i < lasers.Length; i++)
+                // {
+                //     lasers[i].BackwardEnemyLaser();
+                // }
             }
         }
         else 

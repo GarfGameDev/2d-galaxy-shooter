@@ -13,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _dodgingEnemy;
     [SerializeField]
+    private GameObject _bossEnemy;
+    [SerializeField]
     private GameObject _enemyContainer;
 
     private int _wave = 1;
@@ -59,6 +61,7 @@ public class SpawnManager : MonoBehaviour
             switch (_wave)
             {
                 case 1:
+                    yield return new WaitForSeconds(2.0f);
                    if (_enemyCount < 3)
                    {
                         Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
@@ -83,7 +86,7 @@ public class SpawnManager : MonoBehaviour
                             _backwardEnemyCount += 1;
                         }
 
-                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1)
+                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1 || _enemyCount >= 3 && _dodgeEnemyCount < 1)
                         {
                             Instantiate(_dodgingEnemy, position, Quaternion.identity);
                             _dodgeEnemyCount += 1;
@@ -92,18 +95,20 @@ public class SpawnManager : MonoBehaviour
                    }
                    else 
                    {
-                       yield return new WaitUntil(() => _enemiesToDestroy == 0);
+                       yield return new WaitUntil(() => _enemiesToDestroy <= 0);
                        _enemyCount = 0;
-                       _enemiesToDestroy = 7;
+                       _enemiesToDestroy = 9;
                        _beamEnemyCount = 0;
                        _dodgeEnemyCount = 0;
+                       _backwardEnemyCount = 0;
                        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                        _wave += 1;
                        _uiManager.UpdateWave(_wave);
                    }
                    break;
                 case 2:
-                    if (_enemyCount < 5)
+                    yield return new WaitForSeconds(5.0f);
+                    if (_enemyCount < 4)
                    {
                         Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
                         GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
@@ -117,7 +122,17 @@ public class SpawnManager : MonoBehaviour
                             _beamEnemyCount += 1;
                         }
 
-                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1)
+                        if (_backwardEnemyCount < 3)
+                        {
+                            Vector3 backwardPosition = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+                            GameObject backwardEnemy = Instantiate(_backwardEnemy, backwardPosition, Quaternion.identity);
+                            Enemy _backwardEnemyScript = backwardEnemy.GetComponent<Enemy>();
+                            backwardEnemy.transform.parent = _enemyContainer.transform;
+                            _backwardEnemyScript.BackwardEnemy();
+                            _backwardEnemyCount += 1;
+                        }
+
+                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1 || _enemyCount >= 4 && _dodgeEnemyCount < 1)
                         {
                             Instantiate(_dodgingEnemy, position, Quaternion.identity);
                             _dodgeEnemyCount += 1;
@@ -125,19 +140,22 @@ public class SpawnManager : MonoBehaviour
                    }
                     else 
                     {
-                        yield return new WaitUntil(() => _enemiesToDestroy == 0);
+                        yield return new WaitUntil(() => _enemiesToDestroy <= 0);
                         _enemyCount = 0;
                         _enemiesToDestroy = 10;
                         _beamEnemyCount = 0;
                         _dodgeEnemyCount = 0;
+                        _backwardEnemyCount = 0;
                         _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
                         _wave += 1;
                         _uiManager.UpdateWave(_wave);
                     }
                     break;
                 case 3:
-                    if (_enemyCount < 8)
+                    yield return new WaitForSeconds(2.0f);
+                    if (_enemyCount < 5)
                    {
+                        
                         Vector3 position = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
                         GameObject enemy = Instantiate(_enemy, position, Quaternion.identity);
                         enemy.transform.parent = _enemyContainer.transform;
@@ -150,7 +168,17 @@ public class SpawnManager : MonoBehaviour
                             _beamEnemyCount += 1;
                         }
 
-                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1)
+                        if (_backwardEnemyCount < 3)
+                        {
+                            Vector3 backwardPosition = new Vector3(Random.Range(-10.7f, 10.7f), 6.2f, 0);
+                            GameObject backwardEnemy = Instantiate(_backwardEnemy, backwardPosition, Quaternion.identity);
+                            Enemy _backwardEnemyScript = backwardEnemy.GetComponent<Enemy>();
+                            backwardEnemy.transform.parent = _enemyContainer.transform;
+                            _backwardEnemyScript.BackwardEnemy();
+                            _backwardEnemyCount += 1;
+                        }
+
+                        if (_enemiesToDestroy < 3 && _dodgeEnemyCount < 1 || _enemyCount >= 5 && _dodgeEnemyCount < 1)
                         {
                             Instantiate(_dodgingEnemy, position, Quaternion.identity);
                             _dodgeEnemyCount += 1;
@@ -158,8 +186,26 @@ public class SpawnManager : MonoBehaviour
                    }
                     else 
                     {
-                        yield return new WaitUntil(() => _enemiesToDestroy == 0);
+                        yield return new WaitUntil(() => _enemiesToDestroy <= 0);
+                        _enemyCount = 0;
+                        _enemiesToDestroy = 1;
+                        _uiManager.UpdateEnemiesLeft(_enemiesToDestroy);
+                        _wave += 1;
+                        _uiManager.UpdateWave(_wave);
+                    }
+                    break;
+                case 4:
+                    yield return new WaitForSeconds(2.0f);
+                    if (_enemyCount < 1)
+                    {
+                        Instantiate(_bossEnemy, new Vector3(0, 6.2f, 0), Quaternion.identity);
+                        _enemyCount += 1;
+                    }
+                    else 
+                    {
+                        yield return new WaitUntil(() => _enemiesToDestroy <= 0);
                         _playerAlive = false;
+                        _uiManager.GameOver();
                     }
                     break;
                 default:

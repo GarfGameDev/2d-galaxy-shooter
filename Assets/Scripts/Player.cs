@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
     public bool collectedShield = false;
     public bool _isMultiShotActive = false;
     public bool _antiSpeedActive = false;
+    [SerializeField]
     private bool _isInvincible;
 
     private UIManager _uiManager;

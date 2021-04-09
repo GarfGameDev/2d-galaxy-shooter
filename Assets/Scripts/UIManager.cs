@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     private int _maxAmmo = 15;
     [SerializeField]
     private Text _missileText;
+    [SerializeField]
+    private Text _warningTextRight;
+    [SerializeField]
+    private Text _warningTextLeft;
 
     [SerializeField]
     private Text _waveOneText;
@@ -31,6 +35,8 @@ public class UIManager : MonoBehaviour
     private Text _waveTwoText;
     [SerializeField]
     private Text _waveThreeText;
+    [SerializeField]
+    private Text _bossWaveText;
 
     [SerializeField]
     private Text _enemiesRemaining;
@@ -51,6 +57,13 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int playerScore)
     {
         _scoreText.text = "Score: " + playerScore;
+    }
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverFlicker());
+        _restartText.gameObject.SetActive(true);
+        _gameManager.GameOver();
     }
 
     public void UpdateLives(int playerLives)
@@ -93,6 +106,30 @@ public class UIManager : MonoBehaviour
         }
 
     }
+    
+    public void ShowWarningRight()
+    {
+        if (_warningTextRight.gameObject.activeSelf == false)
+        {
+            _warningTextRight.gameObject.SetActive(true);
+        }
+        else if (_warningTextRight.gameObject.activeSelf == true)
+        {
+            _warningTextRight.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowWarningLeft()
+    {
+        if (_warningTextLeft.gameObject.activeSelf == false)
+        {
+            _warningTextLeft.gameObject.SetActive(true);
+        }
+        else if (_warningTextLeft.gameObject.activeSelf == true)
+        {
+            _warningTextLeft.gameObject.SetActive(false);
+        }
+    }
 
     public void UpdateWave(int currentwave)
     {
@@ -122,6 +159,11 @@ public class UIManager : MonoBehaviour
                 _waveThreeText.gameObject.SetActive(true);
                 yield return new WaitForSeconds(2.0f);
                 _waveThreeText.gameObject.SetActive(false);
+                break;
+            case 4:
+                _bossWaveText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(2.0f);
+                _bossWaveText.gameObject.SetActive(false);
                 break;
             default:
                 Debug.Log("Something has gone horribly wrong");
